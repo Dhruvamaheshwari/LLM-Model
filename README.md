@@ -2,6 +2,8 @@
 
 # Simple CLI Chatbots (Gemini & Groq)
 
+![Terminal Chatbot Demo](./screenshot.png)
+
 A simple command-line chat interface built with Node.js. This repository contains two versions of a terminal chatbot:
 
 1. A Google Gemini chatbot using the official `@google/genai` library.
