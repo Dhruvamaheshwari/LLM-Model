@@ -10,26 +10,40 @@ const readline = require('readline-sync')
 // The client gets the API key from the environment variable `GEMINI_API_KEY`.
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-async function main() {
+// to maintain the history
+const History = []
+
+async function chatting(userProblem) {
+
+    // store the history of the user
+    History.push({
+        role:'user',
+        parts:[{text:userProblem}]
+    })
+
+
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
-    contents: 
-    [
-      {
-        role: "user",
-        parts: [{ text: "hey i am Dhruva Maheshari" }],
-      },
-      {
-        role: "model",
-        parts: [{text: "Hello Dhruva Maheshwari! It's nice to meet you. How can I help you today?",},],
-      },
-      {
-        role: "user",
-        parts: [{ text: "what is my name" }],
-      },
-    ],
+    contents: History
   });
-  console.log(response.text);
+
+  // store the history of model response
+    History.push({
+        role:'model',
+        parts:[{text:response.text}]
+    })
+
+    console.log('\n');
+    console.log(response.text);
+}
+
+// call the chatting fuction
+async function main()
+{
+    // take the input
+    const userProblem =  readline.question("Ask me any thing --> ")
+    await chatting(userProblem)
+    main()
 }
 
 main();
